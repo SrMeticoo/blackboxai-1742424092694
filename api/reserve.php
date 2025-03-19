@@ -78,8 +78,8 @@ try {
                 user_name = ?,
                 user_lastname = ?,
                 user_phone = ?,
-                reserved_at = NOW(),
-                release_at = ?
+                reserved_at = DATETIME('now'),
+                updated_at = DATETIME('now')
             WHERE item_id = ? AND number IN ($placeholders)
         ");
 
@@ -87,7 +87,6 @@ try {
             $user['nombre'],
             $user['apellido'],
             $user['telefono'],
-            $release_time,
             $item_id
         ];
         $params = array_merge($params, $numbers);
