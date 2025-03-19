@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración - Sistema de Rifas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        .banner-preview, .logo-preview {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+        }
+        .logo-preview {
+            height: 100px;
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-md">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex justify-between items-center">
+                <h1 class="text-3xl font-bold text-gray-800">
+                    <i class="fas fa-cog text-blue-600 mr-2"></i>
+                    Panel de Administración
+                </h1>
+                <a href="index.html" class="text-blue-600 hover:text-blue-800 transition-colors">
+                    <i class="fas fa-home mr-1"></i>
+                    Ir al Portal
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- System Configuration Section -->
+        <section class="bg-white rounded-lg shadow-md p-6 mb-8">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-6">
+                <i class="fas fa-cogs text-blue-600 mr-2"></i>
+                Configuración del Sistema
+            </h2>
+            <form id="system-config-form" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">
+                        Número de WhatsApp del Propietario
+                    </label>
+                    <div class="flex space-x-2">
+                        <div class="w-1/4">
+                            <select id="country-code" name="countryCode" required
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <option value="+57">🇨🇴 +57 (Colombia)</option>
+                                <option value="+1">🇺🇸 +1 (USA)</option>
+                                <option value="+34">🇪🇸 +34 (España)</option>
+                                <option value="+52">🇲🇽 +52 (México)</option>
+                                <option value="+51">🇵🇪 +51 (Perú)</option>
+                                <option value="+54">🇦🇷 +54 (Argentina)</option>
+                                <option value="+56">🇨🇱 +56 (Chile)</option>
+                                <option value="+58">🇻🇪 +58 (Venezuela)</option>
+                                <option value="+593">🇪🇨 +593 (Ecuador)</option>
+                                <option value="+502">🇬🇹 +502 (Guatemala)</option>
+                                <option value="+503">🇸🇻 +503 (El Salvador)</option>
+                                <option value="+504">🇭🇳 +504 (Honduras)</option>
+                                <option value="+505">🇳🇮 +505 (Nicaragua)</option>
+                                <option value="+506">🇨🇷 +506 (Costa Rica)</option>
+                                <option value="+507">🇵🇦 +507 (Panamá)</option>
+                                <option value="+591">🇧🇴 +591 (Bolivia)</option>
+                                <option value="+595">🇵🇾 +595 (Paraguay)</option>
+                                <option value="+598">🇺🇾 +598 (Uruguay)</option>
+                            </select>
+                        </div>
+                        <input type="tel" id="whatsapp-number" name="whatsappNumber" required
+                            class="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            placeholder="Número sin el código del país">
+                    </div>
+                </div>
+                <div class="space-y-2">
+                    <div class="flex items-center">
+                        <input type="checkbox" id="auto-release-enabled" name="autoReleaseEnabled"
+                            class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                        <label for="auto-release-enabled" class="ml-2 block text-sm text-gray-700">
+                            Habilitar liberación automática de balotas
+                        </label>
+                    </div>
+                    <div>
+                        <label for="auto-release-minutes" class="block text-sm font-medium text-gray-700">
+                            Tiempo de espera (minutos)
+                        </label>
+                        <input type="number" id="auto-release-minutes" name="autoReleaseMinutes" min="1"
+                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            placeholder="10">
+                    </div>
+                </div>
+                <div class="flex justify-end">
+                    <button type="submit"
+                        class="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+                        <i class="fas fa-save mr-2"></i>
+                        Guardar Configuración
+                    </button>
+                </div>
+            </form>
+        </section>
+
+        <!-- Logo Management Section -->
+        <section class="bg-white rounded-lg shadow-md p-6 mb-8">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-6">
+                <i class="fas fa-image text-blue-600 mr-2"></i>
+                Gestionar Logo
+            </h2>
+            <form id="logo-form" class="space-y-4">
+                <div>
+                    <label for="logo-image" class="block text-sm font-medium text-gray-700 mb-1">
+                        URL del Logo
+                    </label>
+                    <input type="url" id="logo-image" name="image" required
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">
+                        Vista Previa del Logo
+                    </label>
+                    <div id="logo-preview" class="logo-preview rounded-lg border border-gray-300"></div>
+                </div>
+                <div class="flex justify-end">
+                    <button type="submit"
+                        class="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+                        <i class="fas fa-save mr-2"></i>
+                        Guardar Logo
+                    </button>
+                </div>
+            </form>
+        </section>
+
+        <!-- Banner Management Section -->
+        <section class="bg-white rounded-lg shadow-md p-6 mb-8">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-6">
+                <i class="fas fa-image text-blue-600 mr-2"></i>
+                Gestionar Banner
+            </h2>
+            <form id="banner-form" class="space-y-4">
+                <div>
+                    <label for="banner-image" class="block text-sm font-medium text-gray-700 mb-1">
+                        URL de la Imagen del Banner
+                    </label>
+                    <input type="url" id="banner-image" name="image" required
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <div>
+                    <label for="banner-title" class="block text-sm font-medium text-gray-700 mb-1">
+                        Título del Banner
+                    </label>
+                    <input type="text" id="banner-title" name="title" required
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">
+                        Vista Previa del Banner
+                    </label>
+                    <div id="banner-preview" class="banner-preview rounded-lg border border-gray-300"></div>
+                </div>
+                <div class="flex justify-end">
+                    <button type="submit"
+                        class="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors">
+                        <i class="fas fa-save mr-2"></i>
+                        Guardar Banner
+                    </button>
+                </div>
+            </form>
+        </section>
+
+        <!-- Create New Item Section -->
+        <section class="bg-white rounded-lg shadow-md p-6 mb-8">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-6">
+                <i class="fas fa-plus-circle text-green-600 mr-2"></i>
+                Crear Nuevo Item
+            </h2>
+            <form id="create-item-form" class="space-y-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="item-name" class="block text-sm font-medium text-gray-700 mb-1">
+                            Nombre del Item
+                        </label>
+                        <input type="text" id="item-name" name="name" required
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <div>
+                        <label for="item-image" class="block text-sm font-medium text-gray-700 mb-1">
+                            URL de la Imagen
+                        </label>
+                        <input type="url" id="item-image" name="image" required
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                </div>
+                <div>
+                    <label for="item-description" class="block text-sm font-medium text-gray-700 mb-1">
+                        Descripción
+                    </label>
+                    <textarea id="item-description" name="description" rows="3" required
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                </div>
+                <div>
+                    <label for="total-balls" class="block text-sm font-medium text-gray-700 mb-1">
+                        Cantidad de Balotas
+                    </label>
+                    <input type="number" id="total-balls" name="totalBalls" required min="1" max="99999"
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <div class="flex justify-end">
+                    <button type="submit"
+                        class="bg-green-600 text-white px-6 py-2 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 transition-colors">
+                        <i class="fas fa-save mr-2"></i>
+                        Crear Item
+                    </button>
+                </div>
+            </form>
+        </section>
+
+        <!-- Manage Items Section -->
+        <section class="bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-6">
+                <i class="fas fa-list text-blue-600 mr-2"></i>
+                Gestionar Items
+            </h2>
+            <div id="admin-items-container" class="space-y-6">
+                <!-- Items will be dynamically inserted here -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Confirmation Modal -->
+    <div id="confirm-modal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+        <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+            <div class="mt-3 text-center">
+                <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">Confirmar Acción</h3>
+                <div class="mt-2 px-7 py-3">
+                    <p class="text-sm text-gray-500" id="modal-message">
+                        ¿Está seguro que desea realizar esta acción?
+                    </p>
+                </div>
+                <div class="flex justify-center space-x-4 mt-3">
+                    <button id="confirm-cancel"
+                        class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-300">
+                        Cancelar
+                    </button>
+                    <button id="confirm-action"
+                        class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500">
+                        Confirmar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html>
