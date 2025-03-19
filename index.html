@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Rifas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        .banner-container {
+            height: 300px;
+            background-size: cover;
+            background-position: center;
+        }
+        .ball-grid {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .rounded-button {
+            border-radius: 0.375rem;
+        }
+        input[type="number"]::-webkit-inner-spin-button, 
+        input[type="number"]::-webkit-outer-spin-button { 
+            -webkit-appearance: none; 
+            margin: 0; 
+        }
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+        .mt-16 {
+            margin-top: 4rem;
+        }
+        .mt-20 {
+            margin-top: 5rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <header class="bg-white shadow-md fixed w-full top-0 z-50">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center">
+                    <img id="site-logo" src="" alt="Logo" class="h-8 mr-3">
+                    <h1 class="text-3xl font-bold text-gray-800">
+                        <i class="fas fa-ticket-alt text-blue-600 mr-2"></i>
+                        Sistema de Rifas
+                    </h1>
+                </div>
+                <button onclick="showLoginModal()" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                    <i class="fas fa-user mr-2"></i>
+                    Admin Login
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div id="banner-section" class="banner-container mt-16 relative bg-gray-200">
+        <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+            <h2 class="text-4xl font-bold text-white text-center px-4"></h2>
+        </div>
+    </div>
+
+    <main class="container mx-auto px-4 py-8 mt-8">
+        <div id="raffle-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Items will be dynamically inserted here -->
+        </div>
+    </main>
+
+    <!-- Login Modal -->
+    <div id="login-modal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+        <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+            <div class="mt-3">
+                <h3 class="text-lg font-medium leading-6 text-gray-900 mb-4">Admin Login</h3>
+                <form id="login-form" class="space-y-4" onsubmit="handleLogin(event)">
+                    <div>
+                        <label for="username" class="block text-sm font-medium text-gray-700">Usuario</label>
+                        <input type="text" id="username" name="username" required
+                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                    <div>
+                        <label for="password" class="block text-sm font-medium text-gray-700">Contraseña</label>
+                        <input type="password" id="password" name="password" required
+                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                    <div class="flex justify-end space-x-3">
+                        <button type="button" onclick="closeLoginModal()"
+                            class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300">
+                            Cancelar
+                        </button>
+                        <button type="submit"
+                            class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+                            Ingresar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reservation Modal -->
+    <div id="reservation-modal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+        <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+            <div class="mt-3">
+                <h3 class="text-lg font-medium leading-6 text-gray-900 mb-4">Reservar Balota(s)</h3>
+                <div id="selected-balls" class="mb-4 p-3 bg-gray-100 rounded">
+                    <!-- Selected balls will be listed here -->
+                </div>
+                <form id="reservation-form" class="space-y-4">
+                    <div>
+                        <label for="nombre" class="block text-sm font-medium text-gray-700">Nombre</label>
+                        <input type="text" id="nombre" name="nombre" required
+                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                    <div>
+                        <label for="apellido" class="block text-sm font-medium text-gray-700">Apellido</label>
+                        <input type="text" id="apellido" name="apellido" required
+                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                    <div>
+                        <label for="telefono" class="block text-sm font-medium text-gray-700">Teléfono</label>
+                        <input type="tel" id="telefono" name="telefono" required
+                            pattern="[0-9]*" inputmode="numeric"
+                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                    <div class="flex justify-end space-x-3">
+                        <button type="button" onclick="closeReservationModal()"
+                            class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300">
+                            Cancelar
+                        </button>
+                        <button type="submit"
+                            class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+                            Reservar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lucky Machine Modal -->
+    <div id="lucky-machine-modal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+        <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white text-center">
+            <h3 class="text-xl font-bold mb-4">¡Maquinita de la Suerte!</h3>
+            <div class="mb-4">
+                <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcDI5Y3Zwd2N4NXF1ZWR1M2JyNHd0ZmRnOWF1bWxqbXF1aWR2NzB1eCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/26uf6qaxqHpYXgjWU/giphy.gif" 
+                     alt="Slot Machine" 
+                     class="w-48 h-48 mx-auto">
+            </div>
+            <div id="lucky-number" class="text-sm font-bold text-blue-600 mb-4">
+                <!-- Lucky number will appear here -->
+            </div>
+            <button onclick="closeLuckyMachineModal()" 
+                    class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+                Cerrar
+            </button>
+        </div>
+    </div>
+
+    <script>
+    // Login handling functions
+    function showLoginModal() {
+        document.getElementById('login-modal').classList.remove('hidden');
+    }
+
+    function closeLoginModal() {
+        document.getElementById('login-modal').classList.add('hidden');
+        document.getElementById('login-form').reset();
+    }
+
+    function handleLogin(event) {
+        event.preventDefault();
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+
+        if (username === 'admin' && password === 'admin') {
+            window.location.href = 'admin.html';
+        } else {
+            alert('Usuario o contraseña incorrectos');
+        }
+    }
+
+    // Phone number validation
+    document.getElementById('telefono').addEventListener('input', function(e) {
+        this.value = this.value.replace(/[^0-9]/g, '');
+    });
+    </script>
+
+    <script src="raffle.js"></script>
+</body>
+</html>
