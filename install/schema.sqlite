@@ -1,0 +1,75 @@
+-- Create admin users table
+CREATE TABLE IF NOT EXISTS admin_users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Create system configuration table
+CREATE TABLE IF NOT EXISTS system_config (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    country_code VARCHAR(10) NOT NULL DEFAULT '+57',
+    whatsapp_number VARCHAR(20) NOT NULL,
+    auto_release_enabled BOOLEAN DEFAULT 0,
+    auto_release_minutes INTEGER DEFAULT 10,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Create banner table
+CREATE TABLE IF NOT EXISTS banner (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    image_url VARCHAR(255) NOT NULL,
+    title VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Create logo table
+CREATE TABLE IF NOT EXISTS logo (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    image_url VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Create raffle items table
+CREATE TABLE IF NOT EXISTS raffle_items (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name VARCHAR(255) NOT NULL,
+    description TEXT,
+    image_url VARCHAR(255) NOT NULL,
+    total_balls INTEGER NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Create balls table
+CREATE TABLE IF NOT EXISTS balls (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    item_id INTEGER NOT NULL,
+    number VARCHAR(10) NOT NULL,
+    status VARCHAR(20) DEFAULT 'available' CHECK(status IN ('available', 'reserved', 'blocked')),
+    user_name VARCHAR(100),
+    user_lastname VARCHAR(100),
+    user_phone VARCHAR(20),
+    reserved_at TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (item_id) REFERENCES raffle_items(id) ON DELETE CASCADE,
+    UNIQUE (item_id, number)
+);
+
+-- Insert default data
+INSERT INTO system_config (country_code, whatsapp_number, auto_release_enabled, auto_release_minutes) 
+VALUES ('+57', '3229009051', 0, 10);
+
+INSERT INTO banner (image_url, title) 
+VALUES (
+    'https://images.unsplash.com/photo-1522542550221-31fd19575a2d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1000&q=80',
+    '¡Grandes Premios te Esperan!'
+);
+
+INSERT INTO logo (image_url) 
+VALUES ('https://via.placeholder.com/200x100?text=Logo');
